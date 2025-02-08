@@ -1,0 +1,34 @@
+services:
+  db:
+    container_name: mariadb
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    volumes:
+      - db_data:/var/lib/mysql
+  app:
+    container_name: nestjs
+    image: node:20.16.0-alpine
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  db_data:
+  app:
