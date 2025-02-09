@@ -1,17 +1,17 @@
 generator client {
-  provider          = "prisma-client-js"
-  ourput            = "../generated/prisma"
-  shadowDatabaseUrl = "(function)"
+  provider = "prisma-client-js"
+  ourput   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Product {
   id          String   @id
-  name        String
+  name        String   @unique
   description String
   price       Float
   createdAt   DateTime @default(now())
