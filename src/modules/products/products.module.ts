@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
-import { GetAllProductsUseCase } from './use-cases/GetAllProductsUseCase';
-import { ProductsController } from './products.controller';
 import { DatabaseModule } from '../database/database.module';
+import { ProductsController } from './products.controller';
 import { CreateProductUseCase } from './use-cases/CreateProductUseCase';
-import { ZodValidateProductDescriptionRepository } from './repositories/ZodValidateProductDescriptionRepository';
-import { ValidateProductDescriptionRepository } from './repositories/ValidateProductDescriptionRepository';
+import { DeleteProductUseCase } from './use-cases/DeleteProductUseCase';
+import { GetAllProductsUseCase } from './use-cases/GetAllProductsUseCase';
+import { GetProductByIdUseCase } from './use-cases/GetProductByIdUseCase';
+import { UpdateProductUseCase } from './use-cases/UpdateProductUseCase';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [ProductsController],
   providers: [
     GetAllProductsUseCase,
+    GetProductByIdUseCase,
     CreateProductUseCase,
-    {
-      provide: ValidateProductDescriptionRepository,
-      useClass: ZodValidateProductDescriptionRepository,
-    },
+    UpdateProductUseCase,
+    DeleteProductUseCase,
   ],
 })
 export class ProductsModule {}

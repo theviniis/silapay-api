@@ -1,6 +1,8 @@
+import { HttpStatus } from '@nestjs/common';
+
 export class HttpResponse<D> {
-  public statusCode: number;
-  public timestamp: Date = new Date();
+  public statusCode: HttpStatus;
+  public timestamp: string = new Date().toISOString();
   public message: string;
   public data: D;
 

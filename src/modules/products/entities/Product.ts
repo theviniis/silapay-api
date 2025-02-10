@@ -1,21 +1,20 @@
-import { Product as PrismaProduct } from '@prisma/client';
+import { randomUUID } from 'node:crypto';
 import { CreateProductDto } from '../dtos/createProductDto';
-import { randomUUID } from 'crypto';
 
-export class ProductEntity implements PrismaProduct {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
+export class Product {
+  public id: string;
+  public name: string;
+  public description: string;
+  public price: number;
+  public createdAt: Date;
+  public updatedAt: Date;
 
-  constructor(product: CreateProductDto) {
+  constructor({ name, description, price }: CreateProductDto) {
     this.id = randomUUID();
-    this.name = product.name;
-    this.price = product.price;
-    this.description = product.description;
-    this.createdAt = new Date();
+    this.name = name;
+    this.description = description;
+    this.price = price;
     this.updatedAt = new Date();
+    this.createdAt = new Date();
   }
 }

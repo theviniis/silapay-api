@@ -1,24 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from '@prisma/client';
-import { GetAllProductsDto } from 'src/modules/products/dtos/getAllProductsDto';
 import { UpdateProductDto } from 'src/modules/products/dtos/updateProductDto';
-import { ProductsRepository } from 'src/modules/products/repositories/ProductsRepository';
+import {
+  GetAllProductsParams,
+  ProductsRepository,
+} from 'src/modules/products/repositories/ProductsRepository';
 import { PrismaService } from '../prisma.service';
-
-const DEFAULT_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 20;
 
 @Injectable()
 export class PrismaProductsRepository implements ProductsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  getAll(getAllProductsDto: GetAllProductsDto): Promise<Product[]> {
-    const page = getAllProductsDto.page || DEFAULT_PAGE;
-    const size = getAllProductsDto.size || DEFAULT_PAGE_SIZE;
-
+  getAll(params: GetAllProductsParams): Promise<Product[]> {
     return this.prismaService.product.findMany({
-      take: size,
-      skip: page * size,
+      skip: params.page,
+      take: params.size,
+      orderBy: params.orderBy,
     });
   }
 
@@ -42,6 +39,12 @@ export class PrismaProductsRepository implements ProductsRepository {
     return this.prismaService.product.update({
       where: { id },
       data,
+    });
+  }
+
+  delete(id: Product['id']): Promise<Product> {
+    return this.prismaService.product.delete({
+      where: { id },
     });
   }
 }
