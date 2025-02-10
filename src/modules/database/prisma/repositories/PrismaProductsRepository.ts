@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsRepository } from 'src/modules/products/repositories/ProductsRepository';
-import { PrismaService } from '../prisma.service';
 import { Product } from '@prisma/client';
 import { GetAllProductsDto } from 'src/modules/products/dtos/getAllProductsDto';
 import { UpdateProductDto } from 'src/modules/products/dtos/updateProductDto';
+import { ProductsRepository } from 'src/modules/products/repositories/ProductsRepository';
+import { PrismaService } from '../prisma.service';
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 20;
@@ -25,6 +25,12 @@ export class PrismaProductsRepository implements ProductsRepository {
   getById(id: Product['id']): Promise<Product | null> {
     return this.prismaService.product.findUnique({
       where: { id },
+    });
+  }
+
+  getByName(name: Product['name']): Promise<Product | null> {
+    return this.prismaService.product.findUnique({
+      where: { name },
     });
   }
 
