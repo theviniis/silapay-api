@@ -5,8 +5,8 @@ export class ProductAlreadyExistsException extends HttpError {
   constructor() {
     super({
       statusCode: HttpStatus.NOT_FOUND,
-      message: 'Product not found',
-      fields: { id: 'Product not found' },
+      message: 'Product name already exists',
+      fields: { id: 'Product name already exists' },
     });
   }
 }

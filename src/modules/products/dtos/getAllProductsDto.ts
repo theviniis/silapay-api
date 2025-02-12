@@ -5,11 +5,11 @@ export class GetAllProductsDto {
   @IsNumber()
   @IsPositive()
   @IsOptional()
-  size?: number;
+  pageSize?: number;
 
   @IsNumber()
   @IsOptional()
-  page?: number;
+  pageIndex?: number;
 
   @IsOptional()
   @IsString()

@@ -31,16 +31,16 @@ export class ProductsController {
 
   @Get()
   async getAllProducts(
-    @Query('page') page: string,
-    @Query('size') size: string,
+    @Query('pageSize') pageSize: string,
+    @Query('pageIndex') pageIndex: string,
     @Query('orderBy') orderBy: `${keyof Product},${'asc' | 'desc'}`,
   ) {
     return new HttpResponse({
       statusCode: HttpStatus.OK,
       message: 'Products fetched successfully',
       data: await this.getAllProductsUseCase.execute({
-        page: +page,
-        size: +size,
+        pageSize: +pageSize,
+        pageIndex: +pageIndex,
         orderBy,
       }),
     });

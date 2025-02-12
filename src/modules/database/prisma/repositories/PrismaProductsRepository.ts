@@ -11,22 +11,22 @@ import { PrismaService } from '../prisma.service';
 export class PrismaProductsRepository implements ProductsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  getAll(params: GetAllProductsParams): Promise<Product[]> {
-    return this.prismaService.product.findMany({
-      skip: params.page,
-      take: params.size,
+  async getAll(params: GetAllProductsParams): Promise<Product[]> {
+    return await this.prismaService.product.findMany({
+      skip: params.pageIndex,
+      take: params.pageSize,
       orderBy: params.orderBy,
     });
   }
 
-  getById(id: Product['id']): Promise<Product | null> {
-    return this.prismaService.product.findUnique({
+  async getById(id: Product['id']): Promise<Product | null> {
+    return await this.prismaService.product.findUnique({
       where: { id },
     });
   }
 
-  getByName(name: Product['name']): Promise<Product | null> {
-    return this.prismaService.product.findUnique({
+  async getByName(name: Product['name']): Promise<Product | null> {
+    return await this.prismaService.product.findUnique({
       where: { name },
     });
   }
@@ -35,16 +35,20 @@ export class PrismaProductsRepository implements ProductsRepository {
     return await this.prismaService.product.create({ data: product });
   }
 
-  update(id: Product['id'], data: UpdateProductDto): Promise<Product> {
-    return this.prismaService.product.update({
+  async update(id: Product['id'], data: UpdateProductDto): Promise<Product> {
+    return await this.prismaService.product.update({
       where: { id },
       data,
     });
   }
 
-  delete(id: Product['id']): Promise<Product> {
-    return this.prismaService.product.delete({
+  async delete(id: Product['id']): Promise<Product> {
+    return await this.prismaService.product.delete({
       where: { id },
     });
+  }
+
+  async countAll(): Promise<number> {
+    return await this.prismaService.product.count();
   }
 }
